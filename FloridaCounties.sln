@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloridaCounties", "FloridaCounties\FloridaCounties.csproj", "{1CB6E71D-67C9-4F73-AE65-A6131C803D68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloridaCountiesTest", "FloridaCountiesTest\FloridaCountiesTest.csproj", "{C3857467-7942-4A74-97DD-BCCA4A8A7930}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CB6E71D-67C9-4F73-AE65-A6131C803D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CB6E71D-67C9-4F73-AE65-A6131C803D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CB6E71D-67C9-4F73-AE65-A6131C803D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CB6E71D-67C9-4F73-AE65-A6131C803D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3857467-7942-4A74-97DD-BCCA4A8A7930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3857467-7942-4A74-97DD-BCCA4A8A7930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3857467-7942-4A74-97DD-BCCA4A8A7930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3857467-7942-4A74-97DD-BCCA4A8A7930}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {120ACCB8-C48F-4B3E-A9B9-7FF89C8206A6}
+	EndGlobalSection
+EndGlobal
