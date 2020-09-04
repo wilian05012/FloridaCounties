@@ -2,7 +2,7 @@
 Getting Florida counties maps in to SQL Server Database.
 
 ## Description
-A solution containing two project: FloridaCounties is a simple C# console application targetting .NET Core 3.1 and a XUnit Test project with little value. 
+A solution containing two projects: FloridaCounties is a simple C# console application targetting .NET Core 3.1 and a XUnit Test project with little value. 
 The console project uses EntityFrameworkCore with NetTopologySuite to populate a table containing mainly the name of each county with its geographic limits in the form of a polygon.
 
 The data is obtained from the Official Geographic Data Portal of The State of Florida.
