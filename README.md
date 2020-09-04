@@ -9,10 +9,10 @@ The data is obtained from the Official Geographic Data Portal of The State of Fl
 
 ## Instructions:
 1. Clone the project in Visual Studio.
-2. Restore the nuget packages packages and build the project.
+2. Restore the Nuget packages packages and build the project.
 3. Verifiy that the solution starting project is FloridaCounties.
-4. Open the Package Manager Console and run Update-Database. 
-    - *(This will create the database in your (localdb)\MSSQLLocal instance, verify it by opening the SQL Server Objct Explorer)*
+4. Open Tools > Nuget Package Manager > Package Manager Console and run Update-Database. 
+    - *(This will create the database in your (localdb)\MSSQLLocalDB instance, verify it by opening View > SQL Server Object Explorer)*
 5. Run the project. 
     - *(This will query the portal for the data, clear the content of the table tblCounties and populat it with the data retrieved)*
 
