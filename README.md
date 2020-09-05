@@ -22,7 +22,7 @@ You can query the newly created database using SQL Server Management Studio by c
 
 Now we are allowed to write SQL scripts like the following that returns the name of the county for a give location.
 
-```SQL
+```TSQL
 USE FloridaCounties;
 GO
 
