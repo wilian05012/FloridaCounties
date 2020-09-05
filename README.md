@@ -18,7 +18,7 @@ The data is obtained from the Official Geographic Data Portal of The State of Fl
 
 ### Notes
 You can query the newly created database using SQL Server Management Studio by connecting the localdb instance.
-![File](./ssms.png)
+![File](./ssms.PNG)
 
 Now we are allowed to write SQL scripts like the following that returns the name of the county for a give location.
 
