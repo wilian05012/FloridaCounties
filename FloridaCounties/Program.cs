@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using FloridaCounties.Classes;
 using FloridaCounties.DataAccess;
 using Microsoft.Data.SqlClient;
-
+using Newtonsoft.Json;
 
 namespace FloridaCounties {
     public static class ApiSettings {
@@ -20,7 +20,7 @@ namespace FloridaCounties {
     }
 
     public static class DbSettings {
-        public static string DatabaseName => "FloridaCounties";
+        public static string DatabaseName => "GeoFlorida";
         public static string ServerName => @"(localdb)\mssqllocaldb";
         public static string GetDbCnString() => new SqlConnectionStringBuilder() {
             DataSource = ServerName,
@@ -54,7 +54,27 @@ namespace FloridaCounties {
 
         public static FloridaCountiesDbContext InitDb() => new DesignTimeFloridaDbContextFactory().CreateDbContext(null);
 
-        static async Task Main(string[] args) {
+        static async Task SaveRootObjectToDbAsync(RootObject rootObject) {
+            using (FloridaCountiesDbContext dbContext = InitDb()) {
+                Console.WriteLine("Cleaning Counties table...");
+                await dbContext.Database.ExecuteSqlRawAsync(@"DELETE FROM tblCounties");
+
+                Console.WriteLine("Saving data to the DB...");
+                dbContext.Counties.AddRange(rootObject.features.Select(feature => new FloridaCounty() {
+                    Id = int.Parse(feature.attributes.COUNTY),
+                    DepCode = feature.attributes.DEPCODE,
+                    EsriId = feature.attributes.OBJECTID,
+                    Name = feature.attributes.COUNTYNAME,
+                    Shape = feature.geometry
+                }));
+
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine("COMPLETE!");
+            }
+        }
+
+        static async Task PopulateFromAPI() {
             using (HttpClient client = new HttpClient()) {
                 Console.WriteLine("Querying the API...");
                 HttpResponseMessage response = await client.GetAsync(ApiSettings.GetFullqueryUrl());
@@ -62,23 +82,7 @@ namespace FloridaCounties {
                     try {
                         Console.WriteLine("Parsing response....");
                         RootObject responseContent = await response.Content.ReadAsAsync<RootObject>();
-                        using (FloridaCountiesDbContext dbContext = InitDb()) {
-                            Console.WriteLine("Cleaning Counties table...");
-                            await dbContext.Database.ExecuteSqlRawAsync(@"DELETE FROM tblCounties");
-
-                            Console.WriteLine("Saving data to the DB...");
-                            dbContext.Counties.AddRange(responseContent.features.Select(feature => new FloridaCounty() {
-                                Id = int.Parse(feature.attributes.COUNTY),
-                                DepCode = feature.attributes.DEPCODE,
-                                EsriId = feature.attributes.OBJECTID,
-                                Name = feature.attributes.COUNTYNAME,
-                                Polygon = feature.geometry
-                            }));
-
-                            await dbContext.SaveChangesAsync();
-
-                            Console.WriteLine("COMPLETE!");
-                        }
+                        await SaveRootObjectToDbAsync(responseContent);
                     } catch(Exception e) {
                         DisplayError(e);
                     }
@@ -86,6 +90,37 @@ namespace FloridaCounties {
                     DisplayError(response.ReasonPhrase);
                 }
             }
+        }
+
+        const string JSON_FILE = @"DataFiles\Florida_Counties.json";
+        static async Task PopulateFromJsonFile() {
+            RootObject fileContent = null;
+            using(StreamReader jsonStreamReader = File.OpenText(JSON_FILE)) {
+                using (JsonTextReader jsonTextReader = new JsonTextReader(jsonStreamReader)) {
+                    jsonTextReader.SupportMultipleContent = false;
+                    JsonSerializer jsonSerializer = new JsonSerializer();
+                    while(jsonTextReader.Read()) {
+                        if(jsonTextReader.TokenType == JsonToken.StartObject) {
+                            fileContent = jsonSerializer.Deserialize<RootObject>(jsonTextReader);
+                        }
+                    }
+                }
+            }
+            
+            if(fileContent is null) {
+                DisplayError($"Unable to parse json file: {JSON_FILE}");
+                return;
+            }
+
+            Console.WriteLine($"Data has been parsed and loaded from {JSON_FILE}...");
+
+            await SaveRootObjectToDbAsync(fileContent);
+        }
+
+        static async Task Main(string[] args) {
+            //await PopulateFromAPI();
+
+            await PopulateFromJsonFile();
         }
     }
 }

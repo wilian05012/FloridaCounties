@@ -35,7 +35,7 @@ namespace FloridaCounties.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Polygon>("Polygon")
+                    b.Property<MultiPolygon>("Shape")
                         .IsRequired()
                         .HasColumnType("geography");
 

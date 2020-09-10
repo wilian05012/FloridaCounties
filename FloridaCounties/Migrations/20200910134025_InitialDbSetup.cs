@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 namespace FloridaCounties.Migrations
 {
-    public partial class InitializeSchema : Migration
+    public partial class InitialDbSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +14,8 @@ namespace FloridaCounties.Migrations
                     Id = table.Column<int>(nullable: false),
                     DepCode = table.Column<int>(nullable: false),
                     EsriId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Shape = table.Column<MultiPolygon>(nullable: false)
                 },
                 constraints: table =>
                 {

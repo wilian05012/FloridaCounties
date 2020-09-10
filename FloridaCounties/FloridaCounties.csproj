@@ -10,6 +10,18 @@
     <Compile Remove="Migrations\20200903122329_InitializeSchema.Designer.cs" />
     <Compile Remove="Migrations\20200903124917_PknoLongerIndentityCol.cs" />
     <Compile Remove="Migrations\20200903124917_PknoLongerIndentityCol.Designer.cs" />
+    <Compile Remove="Migrations\20200903125350_InitializeSchema.cs" />
+    <Compile Remove="Migrations\20200903125350_InitializeSchema.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DataFiles\Florida_Counties.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DataFiles\Florida_Counties.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

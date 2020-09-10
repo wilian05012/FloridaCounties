@@ -5,8 +5,6 @@ Getting Florida counties maps in to SQL Server Database.
 A solution containing two projects: FloridaCounties is a simple C# console application targetting .NET Core 3.1 and a XUnit Test project with little value. 
 The console project uses EntityFrameworkCore with NetTopologySuite to populate a table containing mainly the name of each county with its geographic limits in the form of a polygon.
 
-The data is obtained from the Official Geographic Data Portal of The State of Florida.
-
 ## Instructions:
 1. Clone the project in Visual Studio.
 2. Restore the Nuget packages packages and build the project.
@@ -29,7 +27,7 @@ GO
 DECLARE @MyLocation geography = geography::STPointFromText('POINT(-84.247332 30.48548)', 4326);
 
 SELECT C.Id
-		, C.[Name]
+	, C.[Name]
 FROM dbo.tblCounties AS C
-WHERE C.Polygon.MakeValid().STContains(@MyLocation) = 1;
+WHERE C.Shape.STContains(@MyLocation) = 1;
 ```

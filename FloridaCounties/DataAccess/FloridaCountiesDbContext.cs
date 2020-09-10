@@ -31,7 +31,7 @@ namespace FloridaCounties.DataAccess {
                     .IsRequired(true)
                     .HasMaxLength(50);
 
-                options.Property(entity => entity.Polygon)
+                options.Property(entity => entity.Shape)
                     .IsRequired(true);
             });
         }

@@ -10,8 +10,8 @@ using NetTopologySuite.Geometries;
 namespace FloridaCounties.Migrations
 {
     [DbContext(typeof(FloridaCountiesDbContext))]
-    [Migration("20200903130451_GeographyAdded")]
-    partial class GeographyAdded
+    [Migration("20200910134025_InitialDbSetup")]
+    partial class InitialDbSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace FloridaCounties.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Polygon>("Polygon")
+                    b.Property<MultiPolygon>("Shape")
                         .IsRequired()
                         .HasColumnType("geography");
 
