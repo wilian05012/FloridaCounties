@@ -10,6 +10,9 @@ namespace FloridaCounties.DataAccess {
         public int DepCode { get; set; }
         public int EsriId { get; set; }
         public string Name { get; set; }
+
         public MultiPolygon Shape { get; set; }
+
+        public IEnumerable<FloridaCity> Cities { get; set; }
     }
 }

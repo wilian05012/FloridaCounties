@@ -21,7 +21,7 @@ namespace FloridaCounties {
 
     public static class DbSettings {
         public static string DatabaseName => "GeoFlorida";
-        public static string ServerName => @"(localdb)\mssqllocaldb";
+        public static string ServerName => @"wa186063";
         public static string GetDbCnString() => new SqlConnectionStringBuilder() {
             DataSource = ServerName,
             InitialCatalog = DatabaseName,
