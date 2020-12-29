@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using FloridaCounties.Classes;
+using FloridaCounties.Dto.County;
 using FloridaCounties.DataAccess;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
@@ -54,7 +54,7 @@ namespace FloridaCounties {
 
         public static FloridaCountiesDbContext InitDb() => new DesignTimeFloridaDbContextFactory().CreateDbContext(null);
 
-        static async Task SaveRootObjectToDbAsync(RootObject rootObject) {
+        static async Task SaveRootObjectToDbAsync(Counties rootObject) {
             using (FloridaCountiesDbContext dbContext = InitDb()) {
                 Console.WriteLine("Cleaning Counties table...");
                 await dbContext.Database.ExecuteSqlRawAsync(@"DELETE FROM tblCounties");
@@ -81,7 +81,7 @@ namespace FloridaCounties {
                 if (response.IsSuccessStatusCode) {
                     try {
                         Console.WriteLine("Parsing response....");
-                        RootObject responseContent = await response.Content.ReadAsAsync<RootObject>();
+                        Counties responseContent = await response.Content.ReadAsAsync<Counties>();
                         await SaveRootObjectToDbAsync(responseContent);
                     } catch(Exception e) {
                         DisplayError(e);
@@ -92,27 +92,27 @@ namespace FloridaCounties {
             }
         }
 
-        const string JSON_FILE = @"DataFiles\Florida_Counties.json";
+        const string COUNTIES_JSON_DATAFILE = @"DataFiles\Florida_Counties.json";
         static async Task PopulateFromJsonFile() {
-            RootObject fileContent = null;
-            using(StreamReader jsonStreamReader = File.OpenText(JSON_FILE)) {
+            Counties fileContent = null;
+            using(StreamReader jsonStreamReader = File.OpenText(COUNTIES_JSON_DATAFILE)) {
                 using (JsonTextReader jsonTextReader = new JsonTextReader(jsonStreamReader)) {
                     jsonTextReader.SupportMultipleContent = false;
                     JsonSerializer jsonSerializer = new JsonSerializer();
                     while(jsonTextReader.Read()) {
                         if(jsonTextReader.TokenType == JsonToken.StartObject) {
-                            fileContent = jsonSerializer.Deserialize<RootObject>(jsonTextReader);
+                            fileContent = jsonSerializer.Deserialize<Counties>(jsonTextReader);
                         }
                     }
                 }
             }
             
             if(fileContent is null) {
-                DisplayError($"Unable to parse json file: {JSON_FILE}");
+                DisplayError($"Unable to parse json file: {COUNTIES_JSON_DATAFILE}");
                 return;
             }
 
-            Console.WriteLine($"Data has been parsed and loaded from {JSON_FILE}...");
+            Console.WriteLine($"Data has been parsed and loaded from {COUNTIES_JSON_DATAFILE}...");
 
             await SaveRootObjectToDbAsync(fileContent);
         }
