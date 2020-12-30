@@ -12,10 +12,10 @@ namespace FloridaCounties.Dto.City {
         public Properties properties { get; set; }
     }
 
-    //public class Geometry {
-    //    public string type { get; set; }
-    //    public float[][][] coordinates { get; set; }
-    //}
+    public class Geometry {
+        public string type { get; set; }
+        public object coordinates { get; set; }
+    }
 
     public class Properties {
         public string PLACEFP { get; set; }

@@ -10,6 +10,7 @@ using FloridaCounties.Dto.County;
 using FloridaCounties.DataAccess;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using FloridaCounties.Dto.City;
 
 namespace FloridaCounties {
     public static class ApiSettings {
@@ -54,13 +55,14 @@ namespace FloridaCounties {
 
         public static FloridaCountiesDbContext InitDb() => new DesignTimeFloridaDbContextFactory().CreateDbContext(null);
 
-        static async Task SaveRootObjectToDbAsync(Counties rootObject) {
+        static async Task SaveCountiesToDbAsync(Counties counties, Cities cities) {
             using (FloridaCountiesDbContext dbContext = InitDb()) {
                 Console.WriteLine("Cleaning Counties table...");
                 await dbContext.Database.ExecuteSqlRawAsync(@"DELETE FROM tblCounties");
+                //Cascade deletion ensures cities are deleted as well
 
-                Console.WriteLine("Saving data to the DB...");
-                dbContext.Counties.AddRange(rootObject.features.Select(feature => new FloridaCounty() {
+                Console.Write("Saving data to the DB...");
+                dbContext.Counties.AddRange(counties.features.Select(feature => new FloridaCounty() {
                     Id = int.Parse(feature.attributes.COUNTY),
                     DepCode = feature.attributes.DEPCODE,
                     EsriId = feature.attributes.OBJECTID,
@@ -68,32 +70,46 @@ namespace FloridaCounties {
                     Shape = feature.geometry
                 }));
 
+                dbContext.Cities.AddRange(cities.features.Select(feature => new FloridaCity() { 
+                    Id = feature.properties.AUTOID,
+                    PlaceFP = int.Parse(feature.properties.PLACEFP),
+                    BebrId = feature.properties.BEBR_ID,
+                    Name = feature.properties.NAME,
+                    Notes = feature.properties.NOTES,
+                    Description = feature.properties.DESCRIPT,
+                    EntryCreationDate = feature.properties.FGDLAQDATE,
+                    Area = feature.properties.SHAPE_AREA,
+                    Perimeter = feature.properties.SHAPE_LEN,
+                    //Shape = feature.geometry,
+                    CountyId = dbContext.Counties.FirstOrDefault(county => county.Name == feature.properties.COUNTY).Id
+                }));
+
                 await dbContext.SaveChangesAsync();
 
-                Console.WriteLine("COMPLETE!");
+                Console.WriteLine(" COMPLETE!");
             }
         }
 
-        static async Task PopulateFromAPI() {
-            using (HttpClient client = new HttpClient()) {
-                Console.WriteLine("Querying the API...");
-                HttpResponseMessage response = await client.GetAsync(ApiSettings.GetFullqueryUrl());
-                if (response.IsSuccessStatusCode) {
-                    try {
-                        Console.WriteLine("Parsing response....");
-                        Counties responseContent = await response.Content.ReadAsAsync<Counties>();
-                        await SaveRootObjectToDbAsync(responseContent);
-                    } catch(Exception e) {
-                        DisplayError(e);
-                    }
-                } else {
-                    DisplayError(response.ReasonPhrase);
-                }
-            }
-        }
+        //static async Task PopulateFromAPI() {
+        //    using (HttpClient client = new HttpClient()) {
+        //        Console.WriteLine("Querying the API...");
+        //        HttpResponseMessage response = await client.GetAsync(ApiSettings.GetFullqueryUrl());
+        //        if (response.IsSuccessStatusCode) {
+        //            try {
+        //                Console.WriteLine("Parsing response....");
+        //                Counties responseContent = await response.Content.ReadAsAsync<Counties>();
+        //                await SaveCountiesToDbAsync(responseContent);
+        //            } catch(Exception e) {
+        //                DisplayError(e);
+        //            }
+        //        } else {
+        //            DisplayError(response.ReasonPhrase);
+        //        }
+        //    }
+        //}
 
         const string COUNTIES_JSON_DATAFILE = @"DataFiles\Florida_Counties.json";
-        static async Task PopulateFromJsonFile() {
+        static Counties PopulateCountiesFromJsonFile() {
             Counties fileContent = null;
             using(StreamReader jsonStreamReader = File.OpenText(COUNTIES_JSON_DATAFILE)) {
                 using (JsonTextReader jsonTextReader = new JsonTextReader(jsonStreamReader)) {
@@ -109,18 +125,45 @@ namespace FloridaCounties {
             
             if(fileContent is null) {
                 DisplayError($"Unable to parse json file: {COUNTIES_JSON_DATAFILE}");
-                return;
+            } else {
+                Console.WriteLine($"Counties data has been parsed and loaded from {COUNTIES_JSON_DATAFILE}...");
             }
 
-            Console.WriteLine($"Data has been parsed and loaded from {COUNTIES_JSON_DATAFILE}...");
+            return fileContent;
+            
+        }
 
-            await SaveRootObjectToDbAsync(fileContent);
+        const string CITIES_JSON_DATAFILE = @"DataFiles\Florida_Cities.json";
+        static Cities PopulateCitiesFromJsonFile() {
+            Cities fileContent = null;
+            using(StreamReader jsonStreamReader = File.OpenText(CITIES_JSON_DATAFILE)) {
+                using(JsonTextReader jsonTextReader = new JsonTextReader(jsonStreamReader)) {
+                    jsonTextReader.SupportMultipleContent = false;
+                    JsonSerializer jsonSerializer = new JsonSerializer();
+                    while(jsonTextReader.Read()) {
+                        if(jsonTextReader.TokenType == JsonToken.StartObject) {
+                            fileContent = jsonSerializer.Deserialize<Cities>(jsonTextReader);
+                        }
+                    }
+                }
+            }
+
+            if(fileContent is null) {
+                DisplayError($"Unable to parse json file: {CITIES_JSON_DATAFILE}");
+            } else {
+                Console.WriteLine($"Cities data has been parsed and loaded from {CITIES_JSON_DATAFILE}");
+            }
+
+            return fileContent;
         }
 
         static async Task Main(string[] args) {
             //await PopulateFromAPI();
 
-            await PopulateFromJsonFile();
+            Counties counties = PopulateCountiesFromJsonFile();
+            Cities cities = PopulateCitiesFromJsonFile();
+
+            await SaveCountiesToDbAsync(counties, cities);
         }
     }
 }

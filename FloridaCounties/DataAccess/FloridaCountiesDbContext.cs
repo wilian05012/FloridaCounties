@@ -7,6 +7,7 @@ using System.Text;
 namespace FloridaCounties.DataAccess {
     public class FloridaCountiesDbContext: DbContext {
         public DbSet<FloridaCounty> Counties { get; set; }
+        public DbSet<FloridaCity> Cities { get; set; }
 
         public FloridaCountiesDbContext(DbContextOptions<FloridaCountiesDbContext> options) :base(options){ }
 
@@ -43,16 +44,16 @@ namespace FloridaCounties.DataAccess {
 
                 options.Property(entity => entity.Id)
                     .ValueGeneratedNever()
-                    .IsRequired();
+                    .IsRequired(true);
 
                 options.Property(entity => entity.PlaceFP)
-                    .IsRequired();
+                    .IsRequired(true);
 
                 options.Property(entity => entity.BebrId)
-                    .IsRequired();
+                    .IsRequired(true);
 
                 options.Property(entity => entity.Name)
-                    .IsRequired();
+                    .IsRequired(true);
 
 
                 options.Property(entity => entity.Notes)
@@ -63,7 +64,7 @@ namespace FloridaCounties.DataAccess {
 
                 options.Property(entity => entity.EntryCreationDate)
                     .HasConversion(dateTimeConverter)
-                    .IsRequired();
+                    .IsRequired(true);
 
                 options.Property(entity => entity.Area)
                     .IsRequired(true);
@@ -74,13 +75,13 @@ namespace FloridaCounties.DataAccess {
                 options.Property(entity => entity.Shape)
                     .IsRequired(true);
 
-                options.Property(entity => entity.CountyId)
-                    .IsRequired();
+                options.Property(entity => entity.CountyId);
 
                 options.HasOne(options => options.County)
                     .WithMany(county => county.Cities)
                     .HasForeignKey(city => city.CountyId)
                     .HasPrincipalKey(county => county.Id)
+                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
             });
         }
