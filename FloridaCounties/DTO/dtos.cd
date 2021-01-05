@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="FloridaCounties.Dto.City.Cities">
+    <Position X="0.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTO\Cities.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="features" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="FloridaCounties.Dto.City.Feature">
+    <Position X="4.25" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAKAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTO\Cities.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="properties" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FloridaCounties.Dto.City.Properties">
+    <Position X="8" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABEAAAQEAAAAgAAAAAEEAAAAAABwAAQAAAEA=</HashCode>
+      <FileName>DTO\Cities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FloridaCounties.Dto.Geometry">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACCQAAAIAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>DTO\Geometry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FloridaCounties.Dto.County.Counties">
+    <Position X="0.5" Y="5.5" Width="2" />
+    <AssociationLine Name="features" Type="FloridaCounties.Dto.County.Feature" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="5.875" />
+        <Point X="2.875" Y="5.875" />
+        <Point X="2.875" Y="6.729" />
+        <Point X="5" Y="6.729" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTO\Counties.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="features" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="FloridaCounties.Dto.County.Feature">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTO\Counties.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="attributes" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FloridaCounties.Dto.County.Attributes">
+    <Position X="8.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAEAAAEAAAAAAA=</HashCode>
+      <FileName>DTO\Counties.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

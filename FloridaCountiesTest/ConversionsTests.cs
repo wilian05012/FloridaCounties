@@ -37,8 +37,8 @@ namespace FloridaCountiesTest {
         [Fact]
         public void CanConvertToPolygon() {
             //Arranging
-            SUT.Classes.Geometry simpleGeometry = new SUT.Classes.Geometry() { rings = simpleRing };
-            SUT.Classes.Geometry multiGeometry = new SUT.Classes.Geometry() { rings = multipleRings };
+            SUT.Dto.Geometry simpleGeometry = new SUT.Dto.Geometry() { rings = simpleRing };
+            SUT.Dto.Geometry multiGeometry = new SUT.Dto.Geometry() { rings = multipleRings };
 
             //Acting
             Polygon simplePolygon = simpleGeometry;
