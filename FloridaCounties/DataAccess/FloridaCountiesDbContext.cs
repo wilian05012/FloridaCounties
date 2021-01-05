@@ -14,8 +14,6 @@ namespace FloridaCounties.DataAccess {
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
 
-            DateTimeConverter dateTimeConverter = new DateTimeConverter();
-
             builder.Entity<FloridaCounty>(options => {
                 options.ToTable("tblCounties")
                     .HasKey(e => e.Id);
@@ -63,7 +61,6 @@ namespace FloridaCounties.DataAccess {
                     .IsRequired(false);
 
                 options.Property(entity => entity.EntryCreationDate)
-                    .HasConversion(dateTimeConverter)
                     .IsRequired(true);
 
                 options.Property(entity => entity.Area)

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="DataFiles\Florida_Cities.json" />
+    <None Remove="DataFiles\florida_cities.json" />
     <None Remove="DataFiles\Florida_Counties.json" />
   </ItemGroup>
 
@@ -26,12 +26,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.4" />
   </ItemGroup>
 
 </Project>

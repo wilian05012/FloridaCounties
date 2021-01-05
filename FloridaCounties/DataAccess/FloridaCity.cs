@@ -15,7 +15,7 @@ namespace FloridaCounties.DataAccess {
         public double Area { get; set; }
         public double Perimeter { get; set; }
 
-        public MultiPolygon Shape { get; set; }
+        public Geometry Shape { get; set; }
 
         public int CountyId { get; set; }
         public FloridaCounty County { get; set; }
