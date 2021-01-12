@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -216,8 +217,8 @@ namespace FloridaCounties {
         static async Task Main(string[] args) {
             //await PopulateFromAPI();
 
+            
             Counties counties = PopulateCountiesFromJsonFile();
-
             await SaveCountiesToDbAsync(counties);
         }
     }

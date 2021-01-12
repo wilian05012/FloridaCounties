@@ -13,6 +13,8 @@
   <ItemGroup>
     <None Remove="DataFiles\florida_cities.json" />
     <None Remove="DataFiles\Florida_Counties.json" />
+    <None Remove="SqlScripts\down_fn_contains.sql" />
+    <None Remove="SqlScripts\up_fn_contains.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,11 @@
     <Content Include="DataFiles\Florida_Counties.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\Down\fn_contains.sql" />
+    <EmbeddedResource Include="SqlScripts\Up\fn_contains.sql" />
   </ItemGroup>
 
   <ItemGroup>
