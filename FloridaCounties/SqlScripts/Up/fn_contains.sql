@@ -5,7 +5,7 @@ RETURN
 	SELECT * 
 	FROM dbo.tblCounties AS C
 	WHERE C.Shape.STContains(geography::STPointFromText(
-			CONCAT('POINT(', @latitude, ' ', @longitude, ')'), 4326
+			CONCAT('POINT(', @longitude, ' ', @latitude, ')'), 4326
 		)) = 1;
 GO
 
@@ -16,6 +16,6 @@ RETURN
 	SELECT *
 	FROM dbo.tblCities AS C
 	WHERE C.Shape.STContains(geography::STPointFromText(
-			CONCAT('POINT(', @latitude, ' ', @longitude, ')'), 4326
+			CONCAT('POINT(', @longitude, ' ', @latitude, ')'), 4326
 		)) = 1;
 GO
