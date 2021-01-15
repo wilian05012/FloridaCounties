@@ -15,7 +15,7 @@ CREATE FUNCTION dbo.fnGetCityFor(
 RETURN
 	SELECT *
 	FROM dbo.tblCities AS C
-	WHERE C.Shape.STContains(geography::STPointFromText(
+	WHERE C.Shape.MakeValid().STContains(geography::STPointFromText(
 			CONCAT('POINT(', @longitude, ' ', @latitude, ')'), 4326
 		)) = 1;
 GO
